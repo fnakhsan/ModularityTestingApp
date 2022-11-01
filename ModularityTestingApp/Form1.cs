@@ -24,50 +24,50 @@ namespace ModularityTestingApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String filePath = String.Empty;
-            String fileExt = String.Empty;
+            int stringExtends = 0;
+            int stringNew = 0;
+            int stringClass = 0;
+            string? line;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "C Sharp Files (.cs)|*.cs";
+            openFileDialog.Multiselect = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
+                foreach (string file in openFileDialog.FileNames)
                 {
-                    StreamReader sr = new StreamReader(filePath);
-                    StringBuilder sb = new StringBuilder();
-
-                    string? line = "";
-                    int stringExtends = 0;
-                    int stringNew = 0;
-                    int stringClass = 0;
-
-                    while ((line = sr.ReadLine()) != null)
+                    try
                     {
-                        if (Regex.IsMatch(line, @"\s:\s")) stringExtends++;
-                        if (Regex.IsMatch(line, @"\snew\s")) stringNew++;
-                        if (Regex.IsMatch(line, @"\sclass\s")) stringClass++;
-                        sb.AppendLine(line);
+                        StreamReader sr = new StreamReader(file);
+                        StringBuilder sb = new StringBuilder();
+
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            if (Regex.IsMatch(line, @"\s:\s")) stringExtends++;
+                            if (Regex.IsMatch(line, @"\snew\s")) stringNew++;
+                            if (Regex.IsMatch(line, @"\sclass\s")) stringClass++;
+                            sb.AppendLine(line);
+                        }
+
+                        sr.Close();
+
+                        richTextBox1.Text = sb.ToString();
+
+                        textBoxExtend.Text = stringExtends.ToString();
+                        textBoxNew.Text = stringNew.ToString();
+                        textBoxClass.Text = stringClass.ToString();
+
+                        textBoxTotalOut.Text = (stringClass).ToString();
+                        textBoxTotalIn.Text = (stringExtends + stringNew).ToString();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
                     }
 
-
-                    sr.Close();
-
-                    richTextBox1.Text = sb.ToString();
-
-                    textBoxExtend.Text = stringExtends.ToString();
-                    textBoxNew.Text = stringNew.ToString();
-                    textBoxClass.Text = stringClass.ToString();
-
-                    textBoxTotalOut.Text = (stringClass).ToString();
-                    textBoxTotalIn.Text = (stringExtends + stringNew).ToString();
-
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
             }
         }
 
