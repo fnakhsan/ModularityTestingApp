@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ModularityTestingApp
 {
@@ -44,9 +45,9 @@ namespace ModularityTestingApp
 
                         while ((line = sr.ReadLine()) != null)
                         {
-                            if (line.Contains(":")) stringExtends++;
-                            if (line.Contains("new")) stringNew++;
-                            if (line.Contains("class")) stringClass++;
+                            if (Regex.IsMatch(line, @"\s:\s")) stringExtends++;
+                            if (Regex.IsMatch(line, @"\snew\s")) stringNew++;
+                            if (Regex.IsMatch(line, @"\sclass\s")) stringClass++;
                             sb.AppendLine(line);
                         }
 
