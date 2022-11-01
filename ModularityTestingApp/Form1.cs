@@ -1,10 +1,11 @@
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ModularityTestingApp
 {
     public partial class Form1 : Form
     {
+
+
         public Form1()
         {
             InitializeComponent();
@@ -29,41 +30,42 @@ namespace ModularityTestingApp
             {
                 filePath = openFileDialog.FileName;
                 fileExt = Path.GetExtension(filePath);
-                if (fileExt.CompareTo(".txt") == 0)
+                if (fileExt.CompareTo(".cs") == 0)
                 {
                     try
                     {
                         StreamReader sr = new StreamReader(filePath);
                         StringBuilder sb = new StringBuilder();
 
-                        string line = "";
+                        string? line = "";
                         int stringExtends = 0;
                         int stringNew = 0;
+                        int stringClass = 0;
 
-                        string regexNew = "new";
-
-                        while ((line = sr.ReadLine()) != null) sb.Append(line);
-                        string[] stringArray = sb.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                        foreach (string s in stringArray)
+                        while ((line = sr.ReadLine()) != null)
                         {
-                            if (System.Text.RegularExpressions.Regex.IsMatch(s, ":\\s", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
-                            {
-                                stringExtends++;
-                            } else if (System.Text.RegularExpressions.Regex.IsMatch(s, regexNew, System.Text.RegularExpressions.RegexOptions.IgnoreCase)) 
-                            {
-                                stringNew++;
-                            }
+                            if (line.Contains(":")) stringExtends++;
+                            if (line.Contains("new")) stringNew++;
+                            if (line.Contains("class")) stringClass++;
+                            sb.AppendLine(line);
                         }
 
+
                         sr.Close();
-                        richTextBox1.Text = String.Join(',', stringArray);
-                        textBox1.Text = stringExtends.ToString();
-                        textBox2.Text = stringNew.ToString();
+
+                        richTextBox1.Text = sb.ToString();
+
+                        textBoxExtend.Text = stringExtends.ToString();
+                        textBoxNew.Text = stringNew.ToString();
+                        textBoxClass.Text = stringClass.ToString();
+
+                        textBoxTotalOut.Text = (stringClass).ToString();
+                        textBoxTotalIn.Text = (stringExtends + stringNew).ToString();
 
                     }
                     catch (Exception ex)
                     {
-
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
@@ -85,6 +87,26 @@ namespace ModularityTestingApp
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxTotalIn_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelTotalIn_Click(object sender, EventArgs e)
         {
 
         }
