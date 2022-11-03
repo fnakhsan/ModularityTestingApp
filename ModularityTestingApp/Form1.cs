@@ -24,10 +24,34 @@ namespace ModularityTestingApp
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string? line;
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                
+                try
+                {
+                    string[] files = Directory.GetFiles(dialog.SelectedPath);
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string file in files)
+                    {
+                        string fileExt = Path.GetExtension(file);
+                        if (fileExt.CompareTo(".cs") == 0)
+                        {
+                            StreamReader sr = new StreamReader(file);
+                            while ((line = sr.ReadLine()) != null)
+                            {
+                                sb.AppendLine(line);
+                            }
+                            sr.Close();
+                            richTextBox1.Text = sb.ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
             }
         }
 
