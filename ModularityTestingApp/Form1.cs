@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace ModularityTestingApp
 {
@@ -102,6 +103,9 @@ namespace ModularityTestingApp
             int stringClass = 0;
             string? line;
 
+            List<string> lineList = new List<string>();
+            List<string> classList = new List<string>();
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "C Sharp Files (.cs)|*.cs";
 
@@ -115,15 +119,22 @@ namespace ModularityTestingApp
 
                     while ((line = sr.ReadLine()) != null)
                     {
+                        
                         if (Regex.IsMatch(line, @"\s:\s")) stringExtends++;
                         if (Regex.IsMatch(line, @"\snew\s")) stringNew++;
-                        if (Regex.IsMatch(line, @"\sclass\s")) stringClass++;
+                        if (Regex.IsMatch(line, @"class"))
+                        {
+                            string[] lineArr = line.Split("class");
+                            lineList.Add(lineArr[1]);
+                        }
                         sb.AppendLine(line);
                     }
 
                     sr.Close();
 
-                    richTextBox1.Text = sb.ToString();
+                    string[] classArr = lineList[0].Split(' ');
+                    classList.Add(classArr[1]);
+                    richTextBox1.Text = classList[0];
 
                     textBoxExtend.Text = stringExtends.ToString();
                     textBoxNew.Text = stringNew.ToString();
