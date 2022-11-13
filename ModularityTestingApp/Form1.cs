@@ -105,7 +105,8 @@ namespace ModularityTestingApp
             int stringClass = 0;
             string? line;
 
-            List<string> lineList = new List<string>();
+            string lineList = "";
+            string[] lineArr = Array.Empty<string>();
             List<string> classList = new List<string>();
             
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -124,20 +125,21 @@ namespace ModularityTestingApp
 
                         if (Regex.IsMatch(line, @"\s:\s")) stringExtends++;
                         if (Regex.IsMatch(line, @"\snew\s")) stringNew++;
-                        if (Regex.IsMatch(line, @"class"))
+                        if (Regex.IsMatch(line, @"\sclass\s"))
                         {
-                            string[] lineArr = line.Split("class");
-                            lineList.Add(lineArr[1]);
-                            string[] classArr = lineList[0].Split(' ');
+                            lineArr = line.Split("class");
+                            lineList = lineArr[1];
+                            string[] classArr = lineList.Split(' ');
                             classList.Add(classArr[1]);
                             classListName.nameList?.Add(classArr[1]);
+                            stringClass++;
                         }
                         sb.AppendLine(line);
                     }
 
                     sr.Close();
-                    richTextBox1.Text = classListName.nameList?[0];
 
+                    richTextBox1.Text = classListName.nameList?[0];
                     textBoxExtend.Text = stringExtends.ToString();
                     textBoxNew.Text = stringNew.ToString();
                     textBoxClass.Text = stringClass.ToString();

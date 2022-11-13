@@ -8,7 +8,7 @@ namespace ModularityTestingApp.model
 {
     internal class ClassList
     {
-        private List<string>? list = new List<string> { "" };
+        private List<string>? list = new List<string>();
         public List<string>? nameList {
             get
             {
