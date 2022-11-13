@@ -28,25 +28,37 @@ namespace ModularityTestingApp
         private void button1_Click(object sender, EventArgs e)
         {
             string? line;
+            int stringClass = 0;
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (dialog.ShowDialog() == DialogResult.OK && classListName.nameList?.Count != 0)
             {
                 try
                 {
                     string[] files = Directory.GetFiles(dialog.SelectedPath);
                     StringBuilder sb = new StringBuilder();
-                    foreach (string file in files)
+                    if (classListName.nameList?[0] != null)
                     {
-                        string fileExt = Path.GetExtension(file);
-                        if (fileExt.CompareTo(".cs") == 0)
+                        foreach (string file in files)
                         {
-                            StreamReader sr = new StreamReader(file);
-                            while ((line = sr.ReadLine()) != null)
+                            string fileName = Path.GetFileNameWithoutExtension(file);
+                            string fileExt = Path.GetExtension(file);
+                            if (fileExt.CompareTo(".cs") == 0 && fileName != classListName.nameList[0])
                             {
-                                sb.AppendLine(line);
+                                StreamReader sr = new StreamReader(file);
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    if (Regex.IsMatch(line, classListName.nameList[0]))
+                                    {
+                                        richTextBox1.Text = classListName.nameList[0];
+                                        stringClass++;
+                                    }
+                                    sb.AppendLine(line);
+                                }
+                                sr.Close();
+                                textBoxClass.Text = stringClass.ToString();
+
+                                textBoxTotalOut.Text = stringClass.ToString();
                             }
-                            sr.Close();
-                            richTextBox1.Text = classListName.nameList?[0];
                         }
                     }
                 }
@@ -102,13 +114,13 @@ namespace ModularityTestingApp
         {
             int stringExtends = 0;
             int stringNew = 0;
-            int stringClass = 0;
+
             string? line;
 
             string lineList = "";
             string[] lineArr = Array.Empty<string>();
             List<string> classList = new List<string>();
-            
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "C Sharp Files (.cs)|*.cs";
 
@@ -132,7 +144,6 @@ namespace ModularityTestingApp
                             string[] classArr = lineList.Split(' ');
                             classList.Add(classArr[1]);
                             classListName.nameList?.Add(classArr[1]);
-                            stringClass++;
                         }
                         sb.AppendLine(line);
                     }
@@ -142,9 +153,7 @@ namespace ModularityTestingApp
                     richTextBox1.Text = classListName.nameList?[0];
                     textBoxExtend.Text = stringExtends.ToString();
                     textBoxNew.Text = stringNew.ToString();
-                    textBoxClass.Text = stringClass.ToString();
 
-                    textBoxTotalOut.Text = (stringClass).ToString();
                     textBoxTotalIn.Text = (stringExtends + stringNew).ToString();
 
                 }
