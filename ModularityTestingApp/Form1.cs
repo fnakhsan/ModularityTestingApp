@@ -150,7 +150,7 @@ namespace ModularityTestingApp
 
                     sr.Close();
 
-                    richTextBox1.Text = classListName.nameList?[0];
+                    richTextBox1.Text = lineArr[1];
                     textBoxExtend.Text = stringExtends.ToString();
                     textBoxNew.Text = stringNew.ToString();
 
@@ -168,6 +168,13 @@ namespace ModularityTestingApp
 
         private void label2_Click_1(object sender, EventArgs e)
         {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Form2 eek = new Form2();
+            eek.Show();
 
         }
     }
