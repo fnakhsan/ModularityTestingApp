@@ -62,7 +62,6 @@
             this.label1.Size = new System.Drawing.Size(112, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Browse your project";
-            this.label1.UseWaitCursor = true;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button1
@@ -74,7 +73,6 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Choose Folder";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.UseWaitCursor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // richTextBox1
@@ -105,7 +103,6 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Choose File";
-            this.groupBox1.UseWaitCursor = true;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // label2
@@ -116,7 +113,6 @@
             this.label2.Size = new System.Drawing.Size(107, 15);
             this.label2.TabIndex = 3;
             this.label2.Text = "Browse your c# file";
-            this.label2.UseWaitCursor = true;
             this.label2.Click += new System.EventHandler(this.label2_Click_1);
             // 
             // button2
@@ -128,7 +124,6 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "Choose File";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.UseWaitCursor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBoxExtend
