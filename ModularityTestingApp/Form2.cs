@@ -59,6 +59,7 @@ namespace ModularityTestingApp
                             int index = classArr.Length - 3;
                             classList.Add(classArr[index]);
                             classListName.nameList?.Add(classArr[index]);
+                            MessageBox.Show(classArr[index]);
                         }
                         sb.AppendLine(line);
                         sb.Clear();
@@ -81,7 +82,7 @@ namespace ModularityTestingApp
                     {
                         while ((line2 = sr.ReadLine()) != null)
                         {
-                            jamur = line2.Split(new string[] { ".", " " }, StringSplitOptions.None);
+                            jamur = line2.Split(new string[] { "(", ")", "[", ".", " " }, StringSplitOptions.None);
                             for (int i = 0; i < jamur.Length; i++)
                             {
                                 classList2.Add(jamur[i]);
@@ -111,7 +112,10 @@ namespace ModularityTestingApp
                     result[item]++;
                 }
             }
-            richTextBox1.Text = result["sr"].ToString();
+            foreach(KeyValuePair<string,int> itemm in result)
+            {
+                richTextBox1.AppendText(itemm.Key + ": " + itemm.Value + Environment.NewLine);
+            }
         }
     }
 }
