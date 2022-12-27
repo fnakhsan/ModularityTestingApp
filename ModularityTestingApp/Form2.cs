@@ -1,5 +1,6 @@
 ﻿using ModularityTestingApp.model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,31 +25,53 @@ namespace ModularityTestingApp
             InitializeComponent();
         }
 
+        private void button14_Click(object sender, EventArgs e)
+        {
+            int className = 0;
+            List<string> classNameList = new List<string>();
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "Select which folder you want to be tested.";
+            dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string folderPath = dialog.SelectedPath;
+                string[] fileEntries = Directory.GetFiles(folderPath, "*.cs");
+                foreach (string fileName in fileEntries)
+                {
+                    className++;
+                }
+                stringClassTextBox.Text = className.ToString();
+                totalFanOut.Text = className.ToString();
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            int stringMiaw = 0;
             string? line;
-            int x = 0;
             string lineList = "";
+            int stringExtend = 0;
+
             string[] lineArr = Array.Empty<string>();
             string[] lineArr2 = Array.Empty<string>();
             List<string> classList2 = new List<string>();
             string[] jamur = Array.Empty<string>();
             List<string> classList = new List<string>();
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             OpenFileDialog openFileDialog2 = new OpenFileDialog();
             openFileDialog.Filter = "C Sharp Files (.cs)|*.cs";
             openFileDialog2.Filter = "C Sharp Files (.cs)|*.cs";
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            openFileDialog.Title = "Choose the file which you want to be tested.";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string file = openFileDialog.FileName;
+
                 try
                 {
                     StreamReader sr = new StreamReader(file);
                     StringBuilder sb = new StringBuilder();
-                    //richTextBox1.Text = line2.ToString();
-                    //MessageBox.Show(classList2[0]);
                     while ((line = sr.ReadLine()) != null)
                     {
                         if (Regex.IsMatch(line, @"\snew\s"))
@@ -82,14 +105,16 @@ namespace ModularityTestingApp
                     {
                         while ((line2 = sr.ReadLine()) != null)
                         {
-                            jamur = line2.Split(new string[] { "(", ")", "[", ".", " " }, StringSplitOptions.None);
-                            for (int i = 0; i < jamur.Length; i++)
+                                jamur = line2.Split(new string[] { "(", ")", "[", ".", " " }, StringSplitOptions.None);
+                                for (int i = 0; i < jamur.Length; i++)
                             {
+                                if (Regex.IsMatch(line2, @"\s:\s")) stringExtend++;
+
                                 classList2.Add(jamur[i]);
                             }
                             sb.AppendLine(line2);
                         }
-                        textBox1.Text = classList2.Count.ToString();
+                        objTextBox.Text = classList2.Count.ToString();
                     }
                     catch
                     {
@@ -104,7 +129,6 @@ namespace ModularityTestingApp
             {
                 result[item] = 0;
             }
-
             foreach (string item in classList2)
             {
                 if (result.ContainsKey(item))
@@ -112,10 +136,46 @@ namespace ModularityTestingApp
                     result[item]++;
                 }
             }
-            foreach(KeyValuePair<string,int> itemm in result)
+
+/*            List<int> values2 = result;
+
+            List<int> values = result.Values.ToList();
+            foreach (KeyValuePair<string,int> itemm in result)
             {
                 richTextBox1.AppendText(itemm.Key + ": " + itemm.Value + Environment.NewLine);
-            }
+            }*/
+
+            int sumObj = result.Values.Sum();
+            int totFanIn = sumObj + stringExtend;
+            objTextBox.Text = sumObj.ToString();
+            stringExtendTextBox.Text = stringExtend.ToString();
+            totalFanIn.Text = totFanIn.ToString();
+
         }
+
+
+        /* private void csvButton_Click(object sender, EventArgs e)
+         {
+             int jumlahObj = classListName.nameList.Count();
+             string filePath = @"C:\Data\data.csv";
+             int[][] array1D = new int[jumlahObj][];
+
+
+             for(int i = 0; i < array1D.Length; i++) 
+             {
+                 for (int j = 0; j < array1D[i].Length; j++)
+                 {
+                     array1D[i][j] = i * j;
+                 }
+             }
+
+
+             using (StreamWriter sw = new StreamWriter(filePath))
+             {
+
+             }
+         }
+ */
     }
 }
+
