@@ -66,7 +66,7 @@ namespace ModularityTestingApp
                         //    textBoxClass.Text = stringClass.ToString();
                         //    textBoxTotalOut.Text = stringClass.ToString();
                         //}
-                        
+
 
                     }
                     foreach (string file in files)
@@ -79,7 +79,7 @@ namespace ModularityTestingApp
                         string[] lineArr2;
 
                         if (fileExt.CompareTo(".cs") == 0)
-                        {   
+                        {
                             for (int i = 0; i < classList?.Count; i++)
                             {
                                 if (classList[i].ClassName != fileName)
@@ -102,14 +102,24 @@ namespace ModularityTestingApp
                                             objectItem.ObjectUsage = 0;
                                             objectItem.FenIn = 0;
                                             objectList.Add(objectItem);
-                                        }
+                                        }                                        
                                         sb.AppendLine(line);
                                     }
                                     sr.Close();
                                 }
+                                else
+                                {
+                                    ObjectList objectItem = new ObjectList();
+                                    objectItem.ClassName = classList[i].ClassName;
+                                    objectItem.ObjectName = "";
+                                    objectItem.ObjectUsage = 0;
+                                    objectItem.FenIn = 0;
+                                    objectItem.FenOut = 0;
+                                    objectList.Add(objectItem);
+                                }
                             }
                         }
-                        
+
                     }
                     foreach (string file in files)
                     {
@@ -124,7 +134,7 @@ namespace ModularityTestingApp
                                 StreamReader sr = new StreamReader(file);
                                 while ((line = sr.ReadLine()) != null)
                                 {
-                                    if (Regex.IsMatch(line, objectItem.ObjectName ?? ""))
+                                    if (Regex.IsMatch(line, objectItem.ObjectName ?? "") && objectItem.ObjectName != "")
                                     {
                                         objectUsage++;
                                         objectItem.ObjectUsage = objectUsage;
@@ -172,16 +182,24 @@ namespace ModularityTestingApp
                                 {
                                     if (objectItem.ClassName != fileName)
                                     {
-                                        if (Regex.IsMatch(line, objectItem.ObjectName ?? ""))
+                                        if (Regex.IsMatch(line, objectItem.ObjectName ?? "") && objectItem.ObjectName != "")
                                         {
                                             totalIn++;
+                                            rtb1.Text = objectItem.ClassName;
+                                            rtb2.Text = totalIn.ToString(); 
                                         }
+                                    }
+                                    if (Regex.IsMatch(line, @"\s:\s"))
+                                    {
+                                        totalIn++;
+                                        rtb3.Text = objectItem.ClassName;
+                                        tb5.Text = totalIn.ToString();
                                     }
                                     sb.AppendLine(line);
                                 }
-                                objectItem.FenIn = totalIn;
-                                totalIn = 0;
+                                objectItem.FenIn += totalIn;
                                 sr.Close();
+                                totalIn = 0;
                             }
                         }
                     }
@@ -198,7 +216,7 @@ namespace ModularityTestingApp
                                     StreamReader sr = new StreamReader(file);
                                     while ((line = sr.ReadLine()) != null)
                                     {
-                                        if (Regex.IsMatch(line, objectItem.ObjectName ?? ""))
+                                        if (Regex.IsMatch(line, objectItem.ObjectName ?? "") && objectItem.ObjectName != "")
                                         {
                                             totalOut++;
                                         }
@@ -208,10 +226,10 @@ namespace ModularityTestingApp
                                 }
                             }
                         }
-                        objectItem.FenOut = totalOut;
+                        objectItem.FenOut += totalOut;
                         totalOut = 0;
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -345,7 +363,7 @@ namespace ModularityTestingApp
                             {
                                 while ((line = sr.ReadLine()) != null)
                                 {    
-                                    if (Regex.IsMatch(line, @"\sForm2\s"))
+                                    if (Regex.IsMatch(line, @" Form2 "))
                                     {
                                         lineArr = line.Split("Form2");
                                         newLine = lineArr[1];

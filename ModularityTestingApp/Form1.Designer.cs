@@ -49,6 +49,7 @@
             this.btnFile = new System.Windows.Forms.Button();
             this.rtb2 = new System.Windows.Forms.RichTextBox();
             this.rtb3 = new System.Windows.Forms.RichTextBox();
+            this.tb5 = new Siticone.Desktop.UI.WinForms.SiticoneTextBox();
             this.groupBox1.SuspendLayout();
             this.groupBoxIn.SuspendLayout();
             this.groupBoxOut.SuspendLayout();
@@ -263,11 +264,30 @@
             this.rtb3.TabIndex = 12;
             this.rtb3.Text = "";
             // 
+            // tb5
+            // 
+            this.tb5.DefaultText = "";
+            this.tb5.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.tb5.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.tb5.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tb5.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tb5.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tb5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tb5.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tb5.Location = new System.Drawing.Point(196, 136);
+            this.tb5.Name = "tb5";
+            this.tb5.PasswordChar = '\0';
+            this.tb5.PlaceholderText = "";
+            this.tb5.SelectedText = "";
+            this.tb5.Size = new System.Drawing.Size(217, 35);
+            this.tb5.TabIndex = 12;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 451);
+            this.Controls.Add(this.tb5);
             this.Controls.Add(this.rtb3);
             this.Controls.Add(this.rtb2);
             this.Controls.Add(this.btnFile);
@@ -310,5 +330,6 @@
         private Button btnFile;
         private RichTextBox rtb2;
         private RichTextBox rtb3;
+        private Siticone.Desktop.UI.WinForms.SiticoneTextBox tb5;
     }
 }
