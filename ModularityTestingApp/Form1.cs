@@ -14,6 +14,19 @@ namespace ModularityTestingApp
         int objectUsage = 0;
         int totalIn = 0;
         int totalOut = 0;
+        int totalAllIn = 0;
+        int totalAllOut = 0;
+        int averageIn = 0;
+        int averageOut = 0;
+
+        string stringNumber = "";
+        string stringObjectName = "";
+        string stringObjectUsage = "";
+        string stringFenIn = "";
+        string stringFenOut = "";
+        string stringAverageFenOut = "";
+        string stringAverageFenIn = "";
+        string stringModularitySum = "";
 
         public Form1()
         {
@@ -50,30 +63,11 @@ namespace ModularityTestingApp
                             classItem.ClassName = fileName;
                             classList.Add(classItem);
                         }
-                        //if (fileExt.CompareTo(".cs") == 0 && fileName != classListName.nameList[0])
-                        //{
-                        //    StreamReader sr = new StreamReader(file);
-                        //    while ((line = sr.ReadLine()) != null)
-                        //    {
-                        //        if (Regex.IsMatch(line, classListName.nameList[0]))
-                        //        {
-                        //            richTextBox1.Text = classListName.nameList[0];
-                        //            stringClass++;
-                        //        }
-                        //        sb.AppendLine(line);
-                        //    }
-                        //    sr.Close();
-                        //    textBoxClass.Text = stringClass.ToString();
-                        //    textBoxTotalOut.Text = stringClass.ToString();
-                        //}
-
-
                     }
                     foreach (string file in files)
                     {
                         string fileName = Path.GetFileNameWithoutExtension(file);
                         string fileExt = Path.GetExtension(file);
-                        //rtb2.Text = classList?[4].ClassName?.ToString();
                         string newLine = "";
                         string[] lineArr = Array.Empty<string>();
                         string[] lineArr2;
@@ -85,24 +79,24 @@ namespace ModularityTestingApp
                                 if (classList[i].ClassName != fileName)
                                 {
                                     StreamReader sr = new StreamReader(file);
-                                    rtb2.Text = classList[i].ClassName;
                                     while ((line = sr.ReadLine()) != null)
                                     {
                                         if (Regex.IsMatch(line, $" {classList[i].ClassName} " ?? ""))
                                         {
-                                            rtb1.Text = classList[i].ClassName;
                                             lineArr = line.Split(classList[i].ClassName);
                                             newLine = lineArr[1];
-                                            //rtb3.Text = "text";
                                             lineArr2 = newLine.Split(" ");
-                                            rtb3.Text = lineArr2[1];
                                             ObjectList objectItem = new ObjectList();
                                             objectItem.ClassName = classList[i].ClassName;
                                             objectItem.ObjectName = lineArr2[1];
                                             objectItem.ObjectUsage = 0;
-                                            objectItem.FenIn = 0;
+                                            objectItem.FanIn = 0;
+                                            objectItem.FanOut = 0;
+                                            objectItem.AverageFanIn = 0;
+                                            objectItem.AverageFanOut = 0;
+                                            objectItem.Modularity = 0;
                                             objectList.Add(objectItem);
-                                        }                                        
+                                        }
                                         sb.AppendLine(line);
                                     }
                                     sr.Close();
@@ -113,8 +107,11 @@ namespace ModularityTestingApp
                                     objectItem.ClassName = classList[i].ClassName;
                                     objectItem.ObjectName = "";
                                     objectItem.ObjectUsage = 0;
-                                    objectItem.FenIn = 0;
-                                    objectItem.FenOut = 0;
+                                    objectItem.FanIn = 0;
+                                    objectItem.FanOut = 0;
+                                    objectItem.AverageFanIn = 0;
+                                    objectItem.AverageFanOut = 0;
+                                    objectItem.Modularity = 0;
                                     objectList.Add(objectItem);
                                 }
                             }
@@ -123,8 +120,6 @@ namespace ModularityTestingApp
                     }
                     foreach (string file in files)
                     {
-                        //rtb3.Text = objectList[0].ObjectName;
-                        //rtb3.Text = "test";
                         string fileName = Path.GetFileNameWithoutExtension(file);
                         string fileExt = Path.GetExtension(file);
                         if (fileExt.CompareTo(".cs") == 0)
@@ -137,7 +132,7 @@ namespace ModularityTestingApp
                                     if (Regex.IsMatch(line, objectItem.ObjectName ?? "") && objectItem.ObjectName != "")
                                     {
                                         objectUsage++;
-                                        objectItem.ObjectUsage = objectUsage;
+                                        objectItem.ObjectUsage += objectUsage;
                                     }
                                     sb.AppendLine(line);
                                 }
@@ -146,29 +141,6 @@ namespace ModularityTestingApp
                             }
                         }
                     }
-                    //foreach (ObjectList objectItem in objectList)
-                    //{
-                    //    foreach (string file in files)
-                    //    {
-                    //        string fileName = Path.GetFileNameWithoutExtension(file);
-                    //        string fileExt = Path.GetExtension(file);
-                    //        if (objectItem.ClassName != fileName)
-                    //        {
-                    //            StreamReader sr = new StreamReader(file);
-                    //            while ((line = sr.ReadLine()) != null)
-                    //            {
-                    //                if (Regex.IsMatch(line, objectItem.ObjectName ?? ""))
-                    //                {
-                    //                    totalIn++;
-                    //                }
-                    //                objectItem.FenIn = totalIn;
-                    //                sb.AppendLine(line);
-                    //            }
-                    //            sr.Close();
-                    //        }
-                    //    }
-
-                    //}
                     foreach (string file in files)
                     {
                         string fileName = Path.GetFileNameWithoutExtension(file);
@@ -185,19 +157,16 @@ namespace ModularityTestingApp
                                         if (Regex.IsMatch(line, objectItem.ObjectName ?? "") && objectItem.ObjectName != "")
                                         {
                                             totalIn++;
-                                            rtb1.Text = objectItem.ClassName;
-                                            rtb2.Text = totalIn.ToString(); 
                                         }
                                     }
                                     if (Regex.IsMatch(line, @"\s:\s"))
                                     {
                                         totalIn++;
-                                        rtb3.Text = objectItem.ClassName;
-                                        tb5.Text = totalIn.ToString();
                                     }
                                     sb.AppendLine(line);
                                 }
-                                objectItem.FenIn += totalIn;
+                                objectItem.FanIn += totalIn;
+                                totalAllIn += totalIn;
                                 sr.Close();
                                 totalIn = 0;
                             }
@@ -226,10 +195,10 @@ namespace ModularityTestingApp
                                 }
                             }
                         }
-                        objectItem.FenOut += totalOut;
+                        objectItem.FanOut += totalOut;
+                        totalAllOut += totalOut;
                         totalOut = 0;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -239,91 +208,33 @@ namespace ModularityTestingApp
             }
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
         }
 
-        private void groupBox2_Enter(object sender, EventArgs e)
+        private void btnShow_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBoxTotalIn_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelTotalIn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
+            dataGridView1.Rows.Clear();
             int number = 0;
-            string stringNumber = "";
-            string stringObjectUsage = "";
-            string stringFenIn = "";
-            string stringFenOut = "";
-            //StringBuilder sb1 = new StringBuilder();
-            //foreach (ObjectList item in objectList)
-            //{
-            //    number++;
-            //    stringNumber = number.ToString();
-       
-            //    sb1.AppendLine(stringNumber);
-            //    sb1.AppendLine(item.ClassName);
-            //    sb1.AppendLine(item.ObjectName);
-            //    sb1.AppendLine(item.ObjectName);
-            //    stringObjectUsage = item.ObjectUsage.ToString() ?? "";
-            //    stringFenIn = item.FenIn.ToString() ?? "";
-            //    stringFenOut = item.FenOut.ToString() ?? "";
-            //    sb1.AppendLine(stringObjectUsage);
-            //    sb1.AppendLine(stringFenIn);
-            //    sb1.AppendLine(stringFenOut);
-                
-            //}
-            //rtb1.Text = sb1.ToString();
-            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    var classCollectionCSV = new List<string>();
-                    classCollectionCSV.Add("Number, Class / Object, usage, fen in, fen out");
-                    foreach (var item in objectList)
-                    {
-                        number++;
-                        stringNumber = number.ToString();
-                        stringObjectUsage = item.ObjectUsage.ToString() ?? "";
-                        stringFenIn = item.FenIn.ToString() ?? "";
-                        stringFenOut = item.FenOut.ToString() ?? "";
-                        classCollectionCSV.Add($"{stringNumber},{item.ClassName} / {item.ObjectName}, {item.ObjectUsage}, {item.FenIn}, {item.FenOut}");
-                    }
-                    File.WriteAllLines(sfd.FileName, classCollectionCSV);
+            averageIn = totalAllIn / objectList.Count();
+            averageOut = totalAllOut / objectList.Count();
 
-                    MessageBox.Show("Your data has been successfully saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+            foreach (var item in objectList)
+            {
+                item.AverageFanIn = averageIn;
+                item.AverageFanOut = averageOut;
+                item.Modularity = (item.FanIn * item.FanIn) - (item.FanOut * item.FanOut);
+                number++;
+                stringNumber = number.ToString();
+                stringObjectName = $"{item.ClassName} / {item.ObjectName}";
+                stringObjectUsage = item.ObjectUsage.ToString() ?? "";
+                stringFenIn = item.FanIn.ToString() ?? "";
+                stringFenOut = item.FanOut.ToString() ?? "";
+                stringAverageFenIn = averageIn.ToString();
+                stringAverageFenOut = averageOut.ToString();
+                stringModularitySum = item.Modularity.ToString() ?? "";
+                dataGridView1.Rows.Add(stringNumber, stringObjectName, stringObjectUsage, stringFenIn, stringFenOut, stringAverageFenIn, stringAverageFenOut, stringModularitySum);
             }
         }
 
@@ -333,65 +244,38 @@ namespace ModularityTestingApp
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnPrint_Click(object sender, EventArgs e)
         {
-            //Form2 form2 = new Form2();
-            //form2.Show();
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "C Sharp Files (.cs)|*.cs";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            int number = 0;
+            averageIn = totalAllIn / objectList.Count();
+            averageOut = totalAllOut / objectList.Count();
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
             {
-                string file = openFileDialog.FileName;
-                try
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    string fileName = Path.GetFileNameWithoutExtension(file);
-                    string fileExt = Path.GetExtension(file);
-                    
-                    StringBuilder sb = new StringBuilder();
-                    string? line;
-                    string newLine = "";
-                    string[] lineArr = Array.Empty<string>();
-                    string[] lineArr2;
-
-                    if (fileExt.CompareTo(".cs") == 0)
+                    var classCollectionCSV = new List<string>();
+                    classCollectionCSV.Add("Number, Class / Object, Number of Object Occurance, Fan In, Fan Out, Average Fan In, Average Fan Out, Modularity");
+                    foreach (var item in objectList)
                     {
-                        StreamReader sr = new StreamReader(file);
-                        foreach (ClassList classItem in classList ?? new List<ClassList>())
-                        {
-                            if (classItem.ClassName != fileName)
-                            {
-                                while ((line = sr.ReadLine()) != null)
-                                {    
-                                    if (Regex.IsMatch(line, @" Form2 "))
-                                    {
-                                        lineArr = line.Split("Form2");
-                                        newLine = lineArr[1];
-                                        
-                                        lineArr2 = newLine.Split(" ");
-                                        rtb3.Text = lineArr2[1];
-                                        ObjectList objectItem = new ObjectList();
-                                        objectItem.ClassName = classItem.ClassName;
-                                        objectItem.ObjectName = lineArr2[1];
-                                        objectItem.ObjectUsage = 0;
-                                        objectItem.FenIn = 0;
-                                        objectList.Add(objectItem);
-                                    }
-                                    sb.AppendLine(line);
-                                }
-                            }
-                        }
-                        sr.Close();
+                        item.AverageFanIn = averageIn;
+                        item.AverageFanOut = averageOut;
+                        item.Modularity = (item.FanIn * item.FanIn) - (item.FanOut * item.FanOut);
+                        number++;
+                        stringNumber = number.ToString();
+                        stringObjectName = $"{item.ClassName} / {item.ObjectName}";
+                        stringObjectUsage = item.ObjectUsage.ToString() ?? "";
+                        stringFenIn = item.FanIn.ToString() ?? "";
+                        stringFenOut = item.FanOut.ToString() ?? "";
+                        stringAverageFenIn = averageIn.ToString();
+                        stringAverageFenOut = averageOut.ToString();
+                        stringModularitySum = item.Modularity.ToString() ?? "";
+                        classCollectionCSV.Add($"{stringNumber},{item.ClassName} / {item.ObjectName}, {item.ObjectUsage}, {item.FanIn}, {item.FanOut}, {item.AverageFanIn}, {item.AverageFanOut}, {item.Modularity}");
                     }
-                    
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                    File.WriteAllLines(sfd.FileName, classCollectionCSV);
 
+                    MessageBox.Show("Your data has been successfully saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-
         }
     }
 }

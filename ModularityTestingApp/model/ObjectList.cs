@@ -32,21 +32,44 @@ namespace ModularityTestingApp.model
 			set { objectUsage = value; }
 		}
 
-		private int? fenIn = 0;
+		private int? fanIn = 0;
 
-		public int? FenIn
+		public int? FanIn
 		{
-			get { return fenIn; }
-			set { fenIn = value; }
+			get { return fanIn; }
+			set { fanIn = value; }
 		}
 
-        private int? fenOut = 0;
+        private int? fanOut = 0;
 
-        public int? FenOut
+        public int? FanOut
         {
-            get { return fenOut; }
-            set { fenOut = value; }
+            get { return fanOut; }
+            set { fanOut = value; }
         }
 
+        private int? averageFanIn = 0;
+
+        public int? AverageFanIn
+        {
+            get { return averageFanIn; }
+            set { averageFanIn = value; }
+        }
+
+        private int? averageFanOut = 0;
+
+        public int? AverageFanOut
+        {
+            get { return averageFanOut; }
+            set { averageFanOut = value; }
+        }
+
+        private int? modularity = 0;
+
+        public int? Modularity
+        {
+            get { return modularity; }
+            set { modularity = value; }
+        }
     }
 }
