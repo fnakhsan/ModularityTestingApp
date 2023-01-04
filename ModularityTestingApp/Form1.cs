@@ -1,7 +1,14 @@
+using CsvHelper;
 using ModularityTestingApp.model;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.Globalization;
+using CsvHelper.Configuration;
 
 namespace ModularityTestingApp
 {
@@ -215,26 +222,39 @@ namespace ModularityTestingApp
 
         private void btnShow_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
-            int number = 0;
-            averageIn = totalAllIn / objectList.Count();
-            averageOut = totalAllOut / objectList.Count();
-
-            foreach (var item in objectList)
+            try
             {
-                item.AverageFanIn = averageIn;
-                item.AverageFanOut = averageOut;
-                item.Modularity = (item.FanIn * item.FanIn) - (item.FanOut * item.FanOut);
-                number++;
-                stringNumber = number.ToString();
-                stringObjectName = $"{item.ClassName} / {item.ObjectName}";
-                stringObjectUsage = item.ObjectUsage.ToString() ?? "";
-                stringFenIn = item.FanIn.ToString() ?? "";
-                stringFenOut = item.FanOut.ToString() ?? "";
-                stringAverageFenIn = averageIn.ToString();
-                stringAverageFenOut = averageOut.ToString();
-                stringModularitySum = item.Modularity.ToString() ?? "";
-                dataGridView1.Rows.Add(stringNumber, stringObjectName, stringObjectUsage, stringFenIn, stringFenOut, stringAverageFenIn, stringAverageFenOut, stringModularitySum);
+                dataGridView1.Rows.Clear();
+                    int number = 0;
+                    averageIn = totalAllIn / objectList.Count();
+                    averageOut = totalAllOut / objectList.Count();
+                    foreach (var item in objectList)
+                    {
+                        if (item.ObjectName != "")
+                        {
+                            stringObjectName = $"{item.ClassName} / {item.ObjectName}";
+                        }
+                        else
+                        {
+                            stringObjectName = $"{item.ClassName} / -";
+                        }
+                        item.AverageFanIn = averageIn;
+                        item.AverageFanOut = averageOut;
+                        item.Modularity = (item.FanIn * item.FanIn) - (item.FanOut * item.FanOut);
+                        number++;
+                        stringNumber = number.ToString();
+                        stringObjectUsage = item.ObjectUsage.ToString() ?? "";
+                        stringFenIn = item.FanIn.ToString() ?? "";
+                        stringFenOut = item.FanOut.ToString() ?? "";
+                        stringAverageFenIn = averageIn.ToString();
+                        stringAverageFenOut = averageOut.ToString();
+                        stringModularitySum = item.Modularity.ToString() ?? "";
+                        dataGridView1.Rows.Add(stringNumber, stringObjectName, stringObjectUsage, stringFenIn, stringFenOut, stringAverageFenIn, stringAverageFenOut, stringModularitySum);
+                    }                
+            }
+            catch (DivideByZeroException)
+            {
+                MessageBox.Show("Select the folder of project which you want to test first!");
             }
         }
 
@@ -246,35 +266,71 @@ namespace ModularityTestingApp
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            int number = 0;
-            averageIn = totalAllIn / objectList.Count();
-            averageOut = totalAllOut / objectList.Count();
-            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
+            try
             {
-                if (sfd.ShowDialog() == DialogResult.OK)
+                int number = 0;
+                averageIn = totalAllIn / objectList.Count();
+                averageOut = totalAllOut / objectList.Count();
+                var records = new List<Data>();
+                using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
                 {
-                    var classCollectionCSV = new List<string>();
-                    classCollectionCSV.Add("Number, Class / Object, Number of Object Occurance, Fan In, Fan Out, Average Fan In, Average Fan Out, Modularity");
-                    foreach (var item in objectList)
+                    sfd.Title = "Select the folder of project which you want to test";
+                    if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        item.AverageFanIn = averageIn;
-                        item.AverageFanOut = averageOut;
-                        item.Modularity = (item.FanIn * item.FanIn) - (item.FanOut * item.FanOut);
-                        number++;
-                        stringNumber = number.ToString();
-                        stringObjectName = $"{item.ClassName} / {item.ObjectName}";
-                        stringObjectUsage = item.ObjectUsage.ToString() ?? "";
-                        stringFenIn = item.FanIn.ToString() ?? "";
-                        stringFenOut = item.FanOut.ToString() ?? "";
-                        stringAverageFenIn = averageIn.ToString();
-                        stringAverageFenOut = averageOut.ToString();
-                        stringModularitySum = item.Modularity.ToString() ?? "";
-                        classCollectionCSV.Add($"{stringNumber},{item.ClassName} / {item.ObjectName}, {item.ObjectUsage}, {item.FanIn}, {item.FanOut}, {item.AverageFanIn}, {item.AverageFanOut}, {item.Modularity}");
-                    }
-                    File.WriteAllLines(sfd.FileName, classCollectionCSV);
+                        List<string> numbers = new List<string>();
+                        List<string> classNames = new List<string>();
+                        List<string> objUsage = new List<string>();
+                        List<string> fanIn = new List<string>();
+                        List<string> fanOut = new List<string>();
+                        List<string> avgFanIn = new List<string>();
+                        List<string> avgFanOut = new List<string>();
+                        List<string> modularity = new List<string>();
+                        foreach (var item in objectList)
+                        {
+                            if (item.ObjectName != "")
+                            {
+                                classNames.Add($"{item.ClassName} / {item.ObjectName}");
+                            }
+                            else
+                            {
+                                classNames.Add($"{item.ClassName} / -");
+                            }
+                            number++;
+                            item.AverageFanIn = averageIn;
+                            item.AverageFanOut = averageOut;
+                            item.Modularity = (item.FanIn * item.FanIn) - (item.FanOut * item.FanOut);
+                            numbers.Add(number.ToString());
+                            objUsage.Add(item.ObjectUsage.ToString() ?? "");
+                            fanIn.Add(item.FanIn.ToString() ?? "");
+                            fanOut.Add(item.FanOut.ToString() ?? "");
+                            avgFanIn.Add(averageIn.ToString());
+                            avgFanOut.Add(averageOut.ToString());
+                            modularity.Add(item.Modularity.ToString() ?? "");
+                        }
+                        int lim = numbers.Count();
+                        using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                        {
+                            sw.WriteLine("sep=,");
+                            using (CsvWriter cw = new CsvWriter(sw, CultureInfo.InvariantCulture))
+                            {
+                                for (int i = 0; i < lim; i++)
+                                {
 
-                    MessageBox.Show("Your data has been successfully saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    records.Add(new Data { Number = numbers[i].ToString(), Objects = classNames[i], Usage = objUsage[i].ToString(), Fan_In = fanIn[i].ToString(), Fan_Out = fanOut[i].ToString(), avg_fanIn = avgFanIn[i].ToString(), avg_fanOut = avgFanOut[i].ToString(), Modularity = modularity[i].ToString() });
+                                   
+                                }
+                                cw.Context.RegisterClassMap<csvMap>();
+                                cw.WriteRecords(records);
+                            }
+                        }
+
+                        MessageBox.Show("Your data has been successfully saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
+            }
+            catch (DivideByZeroException)
+            {
+                MessageBox.Show("Select the folder of project which you want to test first!");
             }
         }
     }
