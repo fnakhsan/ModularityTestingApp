@@ -215,11 +215,6 @@ namespace ModularityTestingApp
             }
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnShow_Click(object sender, EventArgs e)
         {
             try

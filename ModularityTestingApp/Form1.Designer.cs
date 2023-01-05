@@ -28,14 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.btnFolder = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.btnShow = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.occurance = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,86 +41,36 @@
             this.fanInAverage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fanOutAverage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modularity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Browse your project";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnFolder
             // 
-            this.btnFolder.Location = new System.Drawing.Point(5, 46);
-            this.btnFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnFolder.Location = new System.Drawing.Point(12, 12);
             this.btnFolder.Name = "btnFolder";
-            this.btnFolder.Size = new System.Drawing.Size(99, 22);
+            this.btnFolder.Size = new System.Drawing.Size(132, 36);
             this.btnFolder.TabIndex = 1;
             this.btnFolder.Text = "Choose Folder";
             this.btnFolder.UseVisualStyleBackColor = true;
             this.btnFolder.Click += new System.EventHandler(this.btnFolder_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.btnPrint);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.btnShow);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btnFolder);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(135, 426);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Choose File";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 140);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Print to CSV";
-            // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(6, 158);
+            this.btnPrint.Location = new System.Drawing.Point(12, 97);
+            this.btnPrint.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnPrint.Size = new System.Drawing.Size(132, 36);
             this.btnPrint.TabIndex = 4;
-            this.btnPrint.Text = "Print";
+            this.btnPrint.Text = "Generate to CSV";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 85);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Show";
-            this.label2.Click += new System.EventHandler(this.label2_Click_1);
-            // 
             // btnShow
             // 
-            this.btnShow.Location = new System.Drawing.Point(5, 102);
-            this.btnShow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnShow.Location = new System.Drawing.Point(12, 54);
             this.btnShow.Name = "btnShow";
-            this.btnShow.Size = new System.Drawing.Size(82, 22);
+            this.btnShow.Size = new System.Drawing.Size(132, 36);
             this.btnShow.TabIndex = 2;
             this.btnShow.Text = "Show";
             this.btnShow.UseVisualStyleBackColor = true;
@@ -147,18 +94,28 @@
             this.fanOutAverage,
             this.modularity});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(135, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataGridView1.Location = new System.Drawing.Point(157, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
-            this.dataGridView1.Size = new System.Drawing.Size(823, 426);
+            this.dataGridView1.Size = new System.Drawing.Size(938, 568);
             this.dataGridView1.TabIndex = 4;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnFolder);
+            this.panel1.Controls.Add(this.btnPrint);
+            this.panel1.Controls.Add(this.btnShow);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(157, 568);
+            this.panel1.TabIndex = 6;
             // 
             // number
             // 
-            this.number.FillWeight = 40F;
+            this.number.FillWeight = 30.5F;
             this.number.HeaderText = "No.";
             this.number.MinimumWidth = 6;
             this.number.Name = "number";
@@ -166,7 +123,7 @@
             // 
             // className
             // 
-            this.className.FillWeight = 160F;
+            this.className.FillWeight = 131.2366F;
             this.className.HeaderText = "Class / Object Name";
             this.className.MinimumWidth = 6;
             this.className.Name = "className";
@@ -174,7 +131,7 @@
             // 
             // occurance
             // 
-            this.occurance.FillWeight = 125F;
+            this.occurance.FillWeight = 147.1076F;
             this.occurance.HeaderText = "Number of Object Occurance";
             this.occurance.MinimumWidth = 6;
             this.occurance.Name = "occurance";
@@ -182,7 +139,7 @@
             // 
             // fanIn
             // 
-            this.fanIn.FillWeight = 108.4844F;
+            this.fanIn.FillWeight = 51.70429F;
             this.fanIn.HeaderText = "Fan In";
             this.fanIn.MinimumWidth = 6;
             this.fanIn.Name = "fanIn";
@@ -190,7 +147,7 @@
             // 
             // fanOut
             // 
-            this.fanOut.FillWeight = 108.4844F;
+            this.fanOut.FillWeight = 70.80624F;
             this.fanOut.HeaderText = "Fan Out";
             this.fanOut.MinimumWidth = 6;
             this.fanOut.Name = "fanOut";
@@ -198,7 +155,7 @@
             // 
             // fanInAverage
             // 
-            this.fanInAverage.FillWeight = 108.4844F;
+            this.fanInAverage.FillWeight = 103.6573F;
             this.fanInAverage.HeaderText = "Fan In Average";
             this.fanInAverage.MinimumWidth = 6;
             this.fanInAverage.Name = "fanInAverage";
@@ -206,7 +163,7 @@
             // 
             // fanOutAverage
             // 
-            this.fanOutAverage.FillWeight = 108.4844F;
+            this.fanOutAverage.FillWeight = 102.3322F;
             this.fanOutAverage.HeaderText = "Fan Out Average";
             this.fanOutAverage.MinimumWidth = 6;
             this.fanOutAverage.Name = "fanOutAverage";
@@ -214,7 +171,7 @@
             // 
             // modularity
             // 
-            this.modularity.FillWeight = 108.4844F;
+            this.modularity.FillWeight = 75.03303F;
             this.modularity.HeaderText = "Modularity";
             this.modularity.MinimumWidth = 6;
             this.modularity.Name = "modularity";
@@ -222,31 +179,25 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(958, 426);
+            this.ClientSize = new System.Drawing.Size(1095, 568);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Label label1;
         private Button btnFolder;
-        private GroupBox groupBox1;
-        private Label label2;
         private Button btnShow;
         private DataGridView dataGridView1;
-        private Label label3;
         private Button btnPrint;
+        private Panel panel1;
         private DataGridViewTextBoxColumn number;
         private DataGridViewTextBoxColumn className;
         private DataGridViewTextBoxColumn occurance;
